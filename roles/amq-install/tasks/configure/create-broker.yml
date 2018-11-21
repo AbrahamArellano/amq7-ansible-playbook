@@ -7,7 +7,7 @@
           "name": hostvars[item].amq_broker_name,
           "address": item,
           "inventory_host": item,
-          "value": "tcp://" + item + ":" + hostvars[item].amq_broker_ports.artemis.port
+          "value": "tcp://" + item + ":" + {{ amq_broker_ports.artemis.port }}
         }
       ] }}
   with_items: "{{ ansible_play_batch }}"
