@@ -27,16 +27,5 @@ amq_broker_disable_hornetq_protocol: False
 amq_broker_disable_mqtt_protocol: False
 amq_broker_disable_stomp_protocol: False
 
-# Port assignments
-amq_broker_ports:
-  artemis:
-    port: 61616
-  amqp:
-    port: 5672
-  stomp:
-    port: 61613
-  hornetq:
-    port: 5445
-  mqtt:
-    port: 1833
+
 

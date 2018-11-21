@@ -1,17 +1,16 @@
 ---
 amq_broker_name: broker-slave    
 amq_broker_slave: True    
-vars_files: /vars/slave_vars.yml
 
 # Port assignments
 amq_broker_ports:
   artemis:
     port: 62616
   amqp:
-    port: 5672
+    port: 5772
   stomp:
-    port: 61613
+    port: 62613
   hornetq:
-    port: 5445
+    port: 5545
   mqtt:
-    port: 1833
+    port: 1933
