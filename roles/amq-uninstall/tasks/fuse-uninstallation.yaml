@@ -1,0 +1,53 @@
+---
+#- name: Check if Fuse Service Exists
+#  stat:
+#    path: /etc/systemd/system/fuse-{{ esb_name }}.service
+#  register: 'fuse_{{ esb_name | replace("-", "_") }}_service_status'
+
+#- name: Stop Fuse Service
+#  service:
+#    name: fuse-{{ esb_name }}
+#    state: stopped
+#  when: 'fuse_{{ esb_name | replace("-", "_") }}_service_status.stat.exists'
+
+#- name: Uninstall systemd unit file
+#  file:
+#    path: /etc/systemd/system/fuse-{{ esb_name }}.service
+#    owner: root
+#    state: absent
+#  when: 'fuse_{{ esb_name | replace("-", "_") }}_service_status.stat.exists'
+#  notify:
+#    - reload systemd
+
+
+
+#- name: Stop AMQ Service
+#  shell: "{{ fuse_home }}/bin/stop"
+#  environment:
+#    BASH_ENV: "~/.profile"
+#  args:
+#    executable: "/bin/bash"
+#    warn: no
+#  become: yes
+#  become_user: fuse
+
+- name: Remove current version to installed version
+  file:
+    path: '{{ amq_broker_dir }}'
+    owner: "{{ user['name'] }}"
+    group: "{{ user['group'] }}"
+    state: absent
+
+- name: Uninstall AMQ core
+  file:
+    path: "{{ amq_core_dir }}"
+    owner: "{{ user['name'] }}"
+    group: "{{ user['group'] }}"
+    state: absent
+
+- name: Uninstall AMQ shared data on Server
+  file:
+    path: "{{ amq_broker_data_dir }}"
+    owner: "{{ user['name'] }}"
+    group: "{{ user['group'] }}"
+    state: absent
