@@ -1,13 +1,14 @@
 ---
 - name: Uninstall Playbook of a AMQ Standalone Environment
   
-    # remote install
+  # remote install
   # hosts: fuse-environment
   
   # local install
-  hosts: 127.0.0.1
+  hosts: master:slave
   connection: local
-  
+
+  serial: 1  
   remote_user: amq
   gather_facts: true
   become: yes

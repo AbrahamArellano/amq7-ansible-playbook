@@ -31,6 +31,11 @@
 #  become: yes
 #  become_user: fuse
 
+- name: Check whether AMQ instances exists
+  stat:
+    path: '{{ amq_broker_dir }}/{{ amq_broker_name }}/bin'
+  register: amq_broker_dir_stat
+  
 - name: Stop AMQ Service
   shell: "{{ amq_broker_dir }}/{{ amq_broker_name }}/bin/artemis-service stop"
   environment:
@@ -38,8 +43,7 @@
   args:
     executable: "/bin/bash"
     warn: no
-  become: yes
-  become_user: fuse
+  when: amq_broker_dir_stat.stat.exists
 
 - name: Remove current version to installed version
   file:
