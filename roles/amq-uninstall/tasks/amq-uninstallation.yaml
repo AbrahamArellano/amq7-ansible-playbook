@@ -45,12 +45,28 @@
     warn: no
   when: amq_broker_dir_stat.stat.exists
 
-- name: Remove current version to installed version
+- name: Remove current instance
+  file:
+    path: '{{ amq_broker_dir }}/{{ amq_broker_name }}'
+    owner: "{{ user['name'] }}"
+    group: "{{ user['group'] }}"
+    state: absent
+
+## Check whether all instances are already uninstalled
+- name: Check if a dir is empty
+  find:
+    paths: '{{ amq_broker_dir }}'
+    file_type: directory
+    patterns: '*'
+  register: foundElements
+
+- name: Remove instances directory
   file:
     path: '{{ amq_broker_dir }}'
     owner: "{{ user['name'] }}"
     group: "{{ user['group'] }}"
     state: absent
+  when: foundElements.matched == 0
 
 - name: Uninstall AMQ core
   file:
@@ -58,6 +74,7 @@
     owner: "{{ user['name'] }}"
     group: "{{ user['group'] }}"
     state: absent
+  when: foundElements.matched == 0
 
 - name: Uninstall AMQ shared data on Server
   file:
@@ -65,3 +82,4 @@
     owner: "{{ user['name'] }}"
     group: "{{ user['group'] }}"
     state: absent
+  when: foundElements.matched == 0
