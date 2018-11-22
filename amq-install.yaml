@@ -1,10 +1,7 @@
 ---
 - name: AMQ Master/Slave Playbook
   
-  # remote install
-  # hosts: fuse-environment
-  
-  # local install
+  # install
   hosts: master:slave
   connection: local
   

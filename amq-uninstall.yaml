@@ -1,10 +1,7 @@
 ---
 - name: Uninstall Playbook of a AMQ Standalone Environment
   
-  # remote install
-  # hosts: fuse-environment
-  
-  # local install
+  # uninstall
   hosts: master:slave
   connection: local
 
@@ -16,4 +13,3 @@
   become_method: su
   roles:
     - { role: amq-uninstall }
-    #- { role: fuse-uninstall, esb_name: 'esb02' }
