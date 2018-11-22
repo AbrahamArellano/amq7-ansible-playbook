@@ -12,6 +12,8 @@
 
 - include_tasks: configure/ports.yml
 
+- include_tasks: configure/console.yml
+
 #- include_tasks: configure/users-roles.yml
 
 #- include_tasks: configure/service.yml

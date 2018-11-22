@@ -7,10 +7,10 @@
           "name": hostvars[item].amq_broker_name,
           "address": item,
           "inventory_host": item,
-          "value": ""
+          "value": "tcp://" + hostvars[item].ansible_host + ":" + hostvars[item].amq_broker_ports.artemis.port|string
         }
       ] }}
-  with_items: "{{ ansible_play_batch }}"
+  with_items: "{{ ansible_play_hosts }}"
 
 - name: configure - create-broker - prepare broker creation options
   set_fact:

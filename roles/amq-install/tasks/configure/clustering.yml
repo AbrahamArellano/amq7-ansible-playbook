@@ -1,4 +1,13 @@
 ---
+- name: configure - clustering - configure default static connectors
+  xml:
+    path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/broker.xml"
+    xpath: "/conf:configuration/core:core/core:connectors/core:connector[@name='artemis']"
+    value: "tcp://{{ ansible_host }}:{{ amq_broker_ports.artemis.port }}"
+    namespaces:
+      conf: urn:activemq
+      core: urn:activemq:core
+    pretty_print: yes
 
 - name: configure - clustering - retrieve existing static connectors
   xml:
@@ -11,9 +20,29 @@
   when: not amq_broker_cluster_discovery
   register: connectors
 
+- name: Display starting connectors
+  debug:
+    var: connectors
+
+  
 - name: configure - clustering - extract connector values as list
   set_fact:
     connectors: "{{ connectors | json_query('matches[*].*') | json_query('[]') }}"
+
+- name: Display connectors as facts
+  debug:
+    var: connectors
+
+- name: Display cluster nodes
+  debug:
+    var: amq_broker_cluster_nodes
+    
+- name: Debug list
+  debug: msg="{{item.name}}, {{item.value}}"
+  with_items:
+    - "{{ amq_broker_cluster_nodes }}"
+  when: not amq_broker_cluster_discovery and item.value not in connectors
+    
 
 - name: configure - clustering - add static connectors
   xml:
@@ -28,7 +57,7 @@
     pretty_print: yes
   with_items:
     - "{{ amq_broker_cluster_nodes }}"
-  when: not amq_broker_cluster_discovery and not item.value | search(ansible_host) and not item.value in connectors
+  when: not amq_broker_cluster_discovery and item.value not in connectors
 
 - name: configure - clustering - configure static connectors
   xml:
@@ -41,7 +70,7 @@
     pretty_print: yes
   with_items:
     - "{{ amq_broker_cluster_nodes }}"
-  when: not amq_broker_cluster_discovery and not item.value | search(ansible_host)
+  when: not amq_broker_cluster_discovery and item.value not in connectors
 
 - name: configure - clustering - remove all static cluster reference connectors
   xml:
@@ -78,7 +107,7 @@
     pretty_print: yes
   with_items:
     - "{{ amq_broker_cluster_nodes }}"
-  when: not amq_broker_cluster_discovery and not item.value | search(ansible_host)
+  when: not amq_broker_cluster_discovery and item.value not in connectors
 
 - name: configure - clustering - remove cluster connection discovery group reference
   xml:

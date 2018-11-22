@@ -1,6 +1,7 @@
 ---
 amq_broker_name: broker-slave    
-amq_broker_slave: True    
+amq_broker_slave: True
+amq_console_port: 8261
 
 # Port assignments
 amq_broker_ports:
