@@ -1,6 +1,6 @@
 ---
 # Queues
-amq_broker_disable_destination_autocreate: True
+amq_broker_disable_destination_autocreate: False
 amq_broker_queues: queue.in,queue.out
 
 # Nio option
