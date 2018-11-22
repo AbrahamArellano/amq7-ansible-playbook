@@ -1,2 +1,2 @@
 ---
-- include_tasks: fuse-uninstallation.yaml
+- include_tasks: amq-uninstallation.yaml
