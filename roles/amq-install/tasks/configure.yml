@@ -16,4 +16,4 @@
 
 #- include_tasks: configure/users-roles.yml
 
-#- include_tasks: configure/service.yml
+- include_tasks: configure/service.yml

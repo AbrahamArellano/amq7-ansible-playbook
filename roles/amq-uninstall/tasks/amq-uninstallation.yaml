@@ -31,6 +31,16 @@
 #  become: yes
 #  become_user: fuse
 
+- name: Stop AMQ Service
+  shell: "{{ amq_broker_dir }}/{{ amq_broker_name }}/bin/artemis-service stop"
+  environment:
+    BASH_ENV: "~/.profile"
+  args:
+    executable: "/bin/bash"
+    warn: no
+  become: yes
+  become_user: fuse
+
 - name: Remove current version to installed version
   file:
     path: '{{ amq_broker_dir }}'
