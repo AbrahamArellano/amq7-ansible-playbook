@@ -1,3 +1,4 @@
+---
 # AMQ Instalation Source
 
 binary:
@@ -25,9 +26,6 @@ user:
 
 # OS Global Variables
 
-# Java Home
-java_home: /usr/lib/jvm/jre-1.8.0-openjdk
-
 # AMQ Home
 amq_home: '/var/amq'
 amq_core_dir: '{{ amq_home }}/amq_core'
@@ -43,14 +41,14 @@ amq_broker_name: broker
 # Primary admin user and role with which the broker is created
 amq_broker_admin:
   name: amq
-  password: redhat
+  password: "{{ vault_amq_broker_admin.password }}"
   role: admins
 
 # Messaging users
 amq_broker_users:
-  - name: jboss
-    password: "jboss"
-    role: users
+  name: jboss
+  password: "{{ vault_amq_broker_users.password }}"
+  role: users
 
 
 ##### AMQ configuration
@@ -86,5 +84,8 @@ amq_broker_replicated: False
 
 ## Shared Storage
 amq_broker_shared_storage: True
+
+## Broker Memory Limit
+global_max_size: 2GB
 
 

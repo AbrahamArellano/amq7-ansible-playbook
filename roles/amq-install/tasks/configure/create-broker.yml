@@ -117,6 +117,13 @@
     - "{{ amq_broker_options | join(' ') }}"
     - "--nio"
   when: amq_broker_nio
+  
+- name: configure - Broker Memory limit 
+  set_fact:
+    amq_broker_options:
+    - "{{ amq_broker_options | join(' ') }}"
+    - "--global-max-size {{ global_max_size }}"
+  when: global_max_size  
 
 - name: configure - create-broker - disable STOMP
   set_fact:
