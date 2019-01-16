@@ -123,7 +123,7 @@
     amq_broker_options:
     - "{{ amq_broker_options | join(' ') }}"
     - "--global-max-size {{ global_max_size }}"
-  when: global_max_size  
+  when: global_max_size_on
 
 - name: configure - create-broker - disable STOMP
   set_fact:

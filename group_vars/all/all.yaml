@@ -40,7 +40,7 @@ amq_broker_name: broker
 
 # Primary admin user and role with which the broker is created
 amq_broker_admin:
-  name: amq
+  name: fappricing
   password: "{{ vault_amq_broker_admin.password }}"
   role: admins
 
@@ -86,6 +86,11 @@ amq_broker_replicated: False
 amq_broker_shared_storage: True
 
 ## Broker Memory Limit
+global_max_size_on: True
 global_max_size: 2GB
 
+# Journal compact
+journal_compact_on: True
+journal_compact_min_files: 10
+journal_compact_percentage: 30
 
