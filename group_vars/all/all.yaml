@@ -17,6 +17,9 @@ amq_patch:
 # AMQ shared storage
 amq_broker_data_dir: /var/amq/data
 
+# AMQ logs 
+amq_broker_log_dir: /var/amq/log
+
 # OS User to install/execute AMQ
 user:
   name: 'amq'

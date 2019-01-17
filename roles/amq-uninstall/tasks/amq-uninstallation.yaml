@@ -76,10 +76,41 @@
     state: absent
   when: foundElements.matched == 0
 
-- name: Uninstall AMQ shared data on Server
-  file:
-    path: "{{ amq_broker_data_dir }}"
+## DELETE CONTENT OF DATA
+- name: Uninstall AMQ - collecting data internal files and directories
+  find: 
+    paths: "{{ amq_broker_data_dir }}"
+    file_type: directory
+    patterns: '*'
+  register: data_directories_to_delete
+  
+- name: print data find_result
+  debug: var=data_directories_to_delete  
+  
+- name: Uninstall AMQ - deleting data internal files and directories
+  file: 
+    path: "{{ item.path }}"
     owner: "{{ user['name'] }}"
     group: "{{ user['group'] }}"
     state: absent
-  when: foundElements.matched == 0
+  with_items: "{{ data_directories_to_delete.files }}"    
+       
+    
+## DELETE CONTENT LOG    
+- name: Uninstall AMQ - collecting log internal files and directories
+  find: 
+    paths: "{{ amq_broker_log_dir }}"
+    file_type: directory
+    patterns: '*'
+  register: log_directories_to_delete
+  
+- name: print log find_result
+  debug: var=log_directories_to_delete  
+  
+- name: Uninstall AMQ - deleting log internal files and directories
+  file: 
+    path: "{{ item.path }}"
+    owner: "{{ user['name'] }}"
+    group: "{{ user['group'] }}"
+    state: absent
+  with_items: "{{ log_directories_to_delete.files }}"   
