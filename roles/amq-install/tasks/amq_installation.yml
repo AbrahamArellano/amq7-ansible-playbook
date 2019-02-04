@@ -61,7 +61,7 @@
 #  - name: Start AMQ service
 #    shell: "{{ amq_home }}/bin/start"
 #    environment:
-#      BASH_ENV: "~/.bash_profile"
+#      BASH_ENV: "~/.bash_profile" 
 #    args:
 #      executable: "/bin/bash"
 #      warn: yes
